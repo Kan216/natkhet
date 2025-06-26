@@ -1,5 +1,6 @@
 import { content } from "@/lib/content";
-import { AiQueryTool } from "@/components/ai-query-tool";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -19,8 +20,10 @@ export function Hero() {
         <p className="mt-6 max-w-3xl text-lg text-primary/80 sm:text-xl md:text-2xl">
           {content.appSubtitle}
         </p>
-        <div className="mt-10 w-full max-w-2xl">
-          <AiQueryTool />
+        <div className="mt-10">
+            <Button asChild size="lg">
+                <Link href="#horoscope-predictions">ဇာတာခန့်မှန်းချက်များကို ကြည့်ရန်</Link>
+            </Button>
         </div>
       </div>
     </section>
