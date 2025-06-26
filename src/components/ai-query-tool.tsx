@@ -34,9 +34,11 @@ export function AiQueryTool() {
     setResult(null);
 
     try {
+      // If selectedSign is "all-signs" or empty, pass undefined to the AI flow.
+      const signForQuery = (selectedSign === "all-signs" || !selectedSign) ? undefined : selectedSign;
       const response = await astrologyQuery({ 
         query, 
-        zodiacSign: selectedSign || undefined 
+        zodiacSign: signForQuery
       });
       setResult(response);
     } catch (err) {
@@ -59,7 +61,7 @@ export function AiQueryTool() {
                 <SelectValue placeholder="ရာသီခွင်ကို ရွေးပါ" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="">ရာသီခွင်အားလုံး</SelectItem>
+                <SelectItem value="all-signs">ရာသီခွင်အားလုံး</SelectItem>
                 {signs.map(sign => <SelectItem key={sign} value={sign}>{sign}</SelectItem>)}
             </SelectContent>
         </Select>
