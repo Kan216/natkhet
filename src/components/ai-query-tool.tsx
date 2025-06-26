@@ -5,8 +5,6 @@ import { Loader2, Sparkles } from "lucide-react";
 
 import { astrologyQuery, AstrologyQueryOutput } from "@/ai/flows/query-tool";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -22,7 +20,6 @@ const signs = content.zodiacSigns.map(s => s.name);
 const questions = ["အချစ်ရေး", "လူမှုရေး", "အလုပ်အကိုင်", "ကျန်းမာရေး"];
 
 export function AiQueryTool() {
-  const [apiKey, setApiKey] = useState("");
   const [selectedSign, setSelectedSign] = useState(signs[0]);
   const [selectedQuestion, setSelectedQuestion] = useState(questions[0]);
   const [result, setResult] = useState<AstrologyQueryOutput | null>(null);
@@ -31,22 +28,12 @@ export function AiQueryTool() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!apiKey.trim()) {
-      toast({
-        variant: "destructive",
-        title: "API Key လိုအပ်ပါသည်",
-        description: "ကျေးဇူးပြု၍ သင်၏ Google AI API Key ကိုထည့်ပါ။",
-      });
-      return;
-    }
-
     setLoading(true);
     setResult(null);
 
     try {
       const signForQuery = (selectedSign === "all-signs" || !selectedSign) ? undefined : selectedSign;
       const response = await astrologyQuery({ 
-        apiKey,
         query: selectedQuestion,
         zodiacSign: signForQuery
       });
@@ -56,7 +43,7 @@ export function AiQueryTool() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "An error occurred while fetching the answer. Please check your API key and try again.",
+        description: "An error occurred while fetching the answer. Please ensure the server is configured correctly and try again.",
       });
     } finally {
       setLoading(false);
@@ -66,21 +53,8 @@ export function AiQueryTool() {
   return (
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="w-full space-y-4">
-        <div className="space-y-2">
-            <Label htmlFor="apiKey" className="text-primary/80">Google AI API Key</Label>
-            <Input
-                id="apiKey"
-                type="password"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="သင်၏ API Key ကိုဤနေရာတွင် ထည့်ပါ"
-                className="w-full bg-card/80 text-base"
-                disabled={loading}
-            />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <Select value={selectedSign} onValueChange={setSelectedSign}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Select value={selectedSign} onValueChange={setSelectedSign} disabled={loading}>
                 <SelectTrigger className="w-full bg-card/80 text-base h-auto py-2.5">
                     <SelectValue placeholder="ရာသီခွင်ကို ရွေးပါ" />
                 </SelectTrigger>
@@ -90,7 +64,7 @@ export function AiQueryTool() {
                 </SelectContent>
             </Select>
 
-            <Select value={selectedQuestion} onValueChange={setSelectedQuestion}>
+            <Select value={selectedQuestion} onValueChange={setSelectedQuestion} disabled={loading}>
                 <SelectTrigger className="w-full bg-card/80 text-base h-auto py-2.5">
                     <SelectValue placeholder="မေးခွန်းကို ရွေးပါ" />
                 </SelectTrigger>
