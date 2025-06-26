@@ -8,6 +8,12 @@ import { Footer } from '@/components/layout/footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
+export async function generateStaticParams() {
+  return content.zodiacSigns.map((sign) => ({
+    sign: sign.slug,
+  }));
+}
+
 // Helper component to render text with bold tags
 const BoldRenderer = ({ text }: { text: string }) => {
     const parts = text.split('**');
