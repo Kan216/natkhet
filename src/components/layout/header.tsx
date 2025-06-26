@@ -3,17 +3,18 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { content } from "@/lib/content";
 
 const navLinks = [
-  { href: "#zodiac-signs", label: "ခန့်မှန်းချက်များ" },
   { href: "#zodiac-signs", label: "ရာသီခွင်များ" },
   { href: "#zodiac-elements", label: "ဒြပ်စင်များ" },
   { href: "#love-compatibility", label: "လိုက်ဖက်မှု" },
   { href: "#why-believe", label: "ယုံကြည်မှု" },
+  { href: "#other-systems", label: "စနစ်များ" },
+  { href: "#interesting-facts", label: "အချက်များ" },
 ];
 
 export function Header() {
@@ -32,7 +33,7 @@ export function Header() {
           <nav className="hidden md:flex md:gap-4">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 className="text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
               >
@@ -56,7 +57,7 @@ export function Header() {
                 <nav className="grid gap-4">
                   {navLinks.map((link) => (
                     <Link
-                      key={link.href}
+                      key={link.label}
                       href={link.href}
                       className="py-2 text-lg font-medium"
                       onClick={() => setOpen(false)}
