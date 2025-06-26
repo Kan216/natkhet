@@ -1,7 +1,6 @@
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Hero } from '@/components/sections/hero';
-import { HoroscopePredictions } from '@/components/sections/horoscope-predictions';
 import { ZodiacSigns } from '@/components/sections/zodiac-signs';
 import { ZodiacElements } from '@/components/sections/zodiac-elements';
 import { LoveCompatibility } from '@/components/sections/love-compatibility';
@@ -15,7 +14,6 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <HoroscopePredictions />
         <ZodiacSigns />
         <ZodiacElements />
         <LoveCompatibility />

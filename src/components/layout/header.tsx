@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { content } from "@/lib/content";
 
 const navLinks = [
-  { href: "#horoscope-predictions", label: "ခန့်မှန်းချက်များ" },
+  { href: "#zodiac-signs", label: "ခန့်မှန်းချက်များ" },
   { href: "#zodiac-signs", label: "ရာသီခွင်များ" },
   { href: "#zodiac-elements", label: "ဒြပ်စင်များ" },
   { href: "#love-compatibility", label: "လိုက်ဖက်မှု" },
