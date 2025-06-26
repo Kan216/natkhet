@@ -13,6 +13,7 @@ import {z} from 'genkit';
 
 const AstrologyQueryInputSchema = z.object({
   query: z.string().describe('The user query about astrology.'),
+  zodiacSign: z.string().optional().describe('The zodiac sign the user is asking about.'),
 });
 export type AstrologyQueryInput = z.infer<typeof AstrologyQueryInputSchema>;
 
@@ -29,7 +30,13 @@ const prompt = ai.definePrompt({
   name: 'astrologyQueryPrompt',
   input: {schema: AstrologyQueryInputSchema},
   output: {schema: AstrologyQueryOutputSchema},
-  prompt: `You are an expert astrologer. Please answer the following question about astrology in Burmese:\n\n{{{query}}}`,
+  prompt: `You are an expert astrologer. Please answer the following question about astrology in Burmese.
+{{#if zodiacSign}}
+The user is asking specifically about the {{zodiacSign}} zodiac sign.
+{{/if}}
+
+Question:
+{{{query}}}`,
 });
 
 const astrologyQueryFlow = ai.defineFlow(

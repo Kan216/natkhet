@@ -8,10 +8,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { content } from "@/lib/content";
+
+const signs = content.zodiacSigns.map(s => s.name);
 
 export function AiQueryTool() {
   const [query, setQuery] = useState("");
+  const [selectedSign, setSelectedSign] = useState("");
   const [result, setResult] = useState<AstrologyQueryOutput | null>(null);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -24,7 +34,10 @@ export function AiQueryTool() {
     setResult(null);
 
     try {
-      const response = await astrologyQuery({ query });
+      const response = await astrologyQuery({ 
+        query, 
+        zodiacSign: selectedSign || undefined 
+      });
       setResult(response);
     } catch (err) {
       console.error(err);
@@ -40,16 +53,25 @@ export function AiQueryTool() {
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row w-full items-center space-y-2 sm:space-y-0 sm:space-x-2">
+        <Select value={selectedSign} onValueChange={setSelectedSign}>
+            <SelectTrigger className="w-full sm:w-[200px] bg-card/80 text-base h-auto py-2.5">
+                <SelectValue placeholder="ရာသီခွင်ကို ရွေးပါ" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value="">ရာသီခွင်အားလုံး</SelectItem>
+                {signs.map(sign => <SelectItem key={sign} value={sign}>{sign}</SelectItem>)}
+            </SelectContent>
+        </Select>
         <Input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="ဥပမာ- မိဿရာသီဖွားအကြောင်းပြောပြပါ"
+          placeholder="ဥပမာ- အချစ်ရေးအကြောင်းမေးရန်"
           className="flex-1 bg-card/80 text-base"
           disabled={loading}
         />
-        <Button type="submit" disabled={loading} size="lg">
+        <Button type="submit" disabled={loading} size="lg" className="w-full sm:w-auto">
           {loading ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
